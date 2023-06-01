@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import Filter from './components/Filter';
+import Notification from './components/Notification';
 import Numbers from './components/Numbers';
 import PersonForm from './components/PersonForm';
 import personService from './services/persons';
@@ -9,6 +10,8 @@ const App = () => {
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [filter, setFilter] = useState('');
+  const [notification, setNotification] = useState(null);
+  const [notificationType, setNotificationType] = useState('error');
 
   useEffect(() => {
     personService.getAll()
@@ -32,9 +35,18 @@ const App = () => {
         personService.update(currentPerson.id, changedPerson)
           .then(response => {
             setPersons(persons.map(person => person.id !== currentPerson.id ? person : response));
+            setNotificationType('info');
+            setNotification(`${response.name} number has been changed to ${response.number}`);
+            setTimeout(() => {
+              setNotification(null)
+            }, 5000);
           })
           .catch(error => {
-            alert('Person not found');
+            setNotificationType('error')
+            setNotification(`Information of ${newName} already has been removed from the server!`);
+            setTimeout(() => {
+                setNotification(null);
+            }, 5000);
           })
       }
       return;
@@ -48,7 +60,12 @@ const App = () => {
       .then(response => {
         setPersons(persons.concat(response));
         setNewName('');
-        setNewNumber('')
+        setNewNumber('');
+        setNotificationType('info');
+        setNotification(`Added ${response.name}`);
+        setTimeout(() => {
+          setNotification(null)
+        }, 5000);
       })
   }
 
@@ -59,11 +76,12 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notification} type={notificationType} />
       <Filter filter={filter} setFilterValue={setFilterValue}/>
       <h3>Add a new</h3>
       <PersonForm submitForm={submitForm} newName={newName} setPersonName={setPersonName} newNumber={newNumber} setPersonNumber={setPersonNumber}/>
       <h3>Numbers</h3>
-      <Numbers persons={persons} filter={filter} setPersons={setPersons} />
+      <Numbers persons={persons} filter={filter} setPersons={setPersons} setNotification={setNotification} setNotificationType={setNotificationType} />
     </div>
   )
 }

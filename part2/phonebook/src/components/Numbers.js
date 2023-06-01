@@ -2,7 +2,7 @@ import React from 'react'
 import personService from '../services/persons'
 
 
-const Numbers = ({ persons, filter, setPersons }) => {
+const Numbers = ({ persons, filter, setPersons, setNotification, setNotificationType }) => {
 
     const result = persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase()))
     
@@ -14,8 +14,12 @@ const Numbers = ({ persons, filter, setPersons }) => {
                     setPersons(persons.filter(person => id !== person.id));
                 })
                 .catch(error => {
-                    alert('Person already has been deleted!');
+                    setNotificationType('error')
+                    setNotification(`Information of ${name} already has been removed from the server!`);
                     setPersons(persons.filter(person => id !== person.id));
+                    setTimeout(() => {
+                        setNotification(null);
+                    }, 5000);
                 })
         }
     }
