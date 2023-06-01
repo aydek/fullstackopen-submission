@@ -1,17 +1,29 @@
 import React from 'react'
+import personService from '../services/persons'
 
-const FilteredResult = ({ persons, filter }) => {
+
+const Numbers = ({ persons, filter, setPersons }) => {
+
     const result = persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase()))
     
-    return result.map(person => <div key={person.name}>{person.name} {person.number}</div>)
-    
-}
+    const deletePerson = (id, name) => () => {
 
-const Numbers = ({ persons, filter }) => {
+        if(window.confirm(`Delete ${name}?`)) {
+            personService.remove(id)
+                .then(response => {
+                    setPersons(persons.filter(person => id !== person.id));
+                })
+                .catch(error => {
+                    alert('Person already has been deleted!');
+                    setPersons(persons.filter(person => id !== person.id));
+                })
+        }
+    }
 
-    return (
-        <div>
-            {filter.length ? <FilteredResult persons={persons} filter={filter} /> : persons.map(person => <div key={person.name}>{person.name} {person.number}</div>)}
+    return result.map(person =>
+        <div key={person.name}>
+            <span>{person.name} {person.number}</span>
+            <button onClick={deletePerson(person.id, person.name)}>delete</button>
         </div>
     )
 }
