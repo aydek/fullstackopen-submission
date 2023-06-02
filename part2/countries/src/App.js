@@ -7,12 +7,6 @@ function App() {
   const [search, setSearch] = useState('');
   const [searchResults, setSearchResults] = useState([]);
 
-  const handleSearchChange = (event) => {
-    const input = event.target.value;
-    setSearch(input);
-    setSearchResults(allCountries.filter(country => country.toLowerCase().includes(input.toLowerCase())));
-  }
-
   useEffect(() => {
     axios.get('https://studies.cs.helsinki.fi/restcountries/api/all')
       .then(response => {
@@ -25,6 +19,16 @@ function App() {
       ).catch(error => console.error(`Failed to fetch data, message: ${error}`));
   }, [allCountries])
   
+  const handleSearchChange = (event) => {
+    const input = event.target.value;
+    setSearch(input);
+    setSearchResults(allCountries.filter(country => country.toLowerCase().includes(input.toLowerCase())));
+  }
+
+  const showCountry = (country) => () => {
+    setSearch('');
+    setSearchResults([country])
+  }
   
   return (
     <div>
@@ -34,7 +38,7 @@ function App() {
             searchResults.length === 1 ? <CountryInfo name={searchResults[0]}/> :
             searchResults.map(country => 
               <div key={country}>
-                {country}
+                {country}<button onClick={showCountry(country)}>show</button>
               </div>
             )
         }
