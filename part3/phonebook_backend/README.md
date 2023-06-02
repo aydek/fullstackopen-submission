@@ -1,0 +1,1 @@
+This aplication can be found on: https://bold-bird-4760.fly.dev/
