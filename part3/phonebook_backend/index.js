@@ -10,7 +10,7 @@ morgan.token('body', req => {
   
 app.use(morgan(':method :url :body'))
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001
 
 let persons = [
     { 
