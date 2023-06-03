@@ -56,13 +56,21 @@ const App = () => {
       number: newNumber
     }
     
-    personService.create(newObject)
+    personService
+      .create(newObject)
       .then(response => {
         setPersons(persons.concat(response));
         setNewName('');
         setNewNumber('');
         setNotificationType('info');
         setNotification(`Added ${response.name}`);
+        setTimeout(() => {
+          setNotification(null)
+        }, 5000);
+      })
+      .catch(error => {
+        setNotificationType('error');
+        setNotification(error.response.data.error);
         setTimeout(() => {
           setNotification(null)
         }, 5000);
