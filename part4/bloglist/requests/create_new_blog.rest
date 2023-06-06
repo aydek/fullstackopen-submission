@@ -1,7 +1,7 @@
 POST http://localhost:3001/api/blogs 
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpqMTIzIiwiaWQiOiI2NDdlNDkyYzUxY2U0MzBmM2RjYTBkOTIiLCJpYXQiOjE2ODYwNjU2MzZ9.sU_JCm5xIVPD_fymqdaFPeYQAkMNJ8tjUDlVgKciiwE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpqMTIzIiwiaWQiOiI2NDdlNDkyYzUxY2U0MzBmM2RjYTBkOTIiLCJpYXQiOjE2ODYwNjg0MDd9.ZJmSpgZbyfZdJ-rmLjs5DEnZ4CQBFeyRl6MU_511OF8
 
 {
-    "author": "John Taylor", "title": "How to learn to code", "url": "google.com", "likes": 0, "userId": "647e387a496506982eec7e03"
+    "author": "John Taylor", "title": "How to learn to code", "url": "google.com", "likes": 0
 }
