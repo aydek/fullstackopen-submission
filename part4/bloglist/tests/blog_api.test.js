@@ -3,6 +3,9 @@ const supertest = require('supertest');
 const app = require('../app');
 const api = supertest(app);
 const Blog = require('../models/blog');
+const User = require('../models/user');
+const jwt = require('jsonwebtoken');
+const config = require('../utils/config');
 const { blogs } = require('../utils/list_helper');
 
 beforeEach(async () => {
@@ -66,8 +69,18 @@ describe('adding new blog', () => {
             likes: 99,
         };
 
+        const user = await User.findOne({ username: 'default' });
+
+        const userForToken = {
+            username: 'default',
+            id: user.id,
+        };
+
+        const token = jwt.sign(userForToken, config.SECRET);
+
         await api
             .post('/api/blogs')
+            .set('Authorization', `Bearer ${token}`)
             .send(newBlog)
             .expect(201)
             .expect('Content-Type', /application\/json/);
@@ -95,8 +108,18 @@ describe('adding new blog', () => {
             url: 'http://google.com',
         };
 
+        const user = await User.findOne({ username: 'default' });
+
+        const userForToken = {
+            username: 'default',
+            id: user.id,
+        };
+
+        const token = jwt.sign(userForToken, config.SECRET);
+
         await api
             .post('/api/blogs')
+            .set('Authorization', `Bearer ${token}`)
             .send(newBlog)
             .expect(201)
             .expect('Content-Type', /application\/json/);
@@ -109,13 +132,32 @@ describe('adding new blog', () => {
 
 describe('when deleting blog', () => {
     test('succesfully delete blog with existing id', async () => {
+        const user = await User.findOne({ username: 'default' });
+
+        const userForToken = {
+            username: 'default',
+            id: user.id,
+        };
+
+        const token = jwt.sign(userForToken, config.SECRET);
+
         const response = await api.get('/api/blogs');
-        await api.delete(`/api/blogs/${response.body[0].id}`).expect(204);
+        await Blog.findByIdAndUpdate(response.body[0].id, { user: user.id });
+        await api.delete(`/api/blogs/${response.body[0].id}`).set('Authorization', `Bearer ${token}`).expect(204);
     });
 
     test('invalid id', async () => {
+        const user = await User.findOne({ username: 'default' });
+
+        const userForToken = {
+            username: 'default',
+            id: user.id,
+        };
+
+        const token = jwt.sign(userForToken, config.SECRET);
+
         const invalidID = 'some_invalid_id';
-        await api.delete(`/api/blogs/${invalidID}`).expect(400);
+        await api.delete(`/api/blogs/${invalidID}`).set('Authorization', `Bearer ${token}`).expect(400);
     });
 });
 
