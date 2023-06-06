@@ -26,8 +26,17 @@ const errorHandler = (error, request, response, next) => {
     next(error);
 };
 
+const tokenExtractor = (request, response, next) => {
+    const token = request.headers.authorization;
+    if (token && request.headers.authorization.startsWith('Bearer ')) {
+        request.token = request.headers.authorization.replace('Bearer ', '');
+    } else response.status(401).send({ error: 'no token provided' });
+    next();
+};
+
 module.exports = {
     requestLogger,
     unknownEndpoint,
     errorHandler,
+    tokenExtractor,
 };
