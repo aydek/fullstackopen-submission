@@ -61,6 +61,16 @@ describe('viewing specific blog', () => {
 });
 
 describe('adding new blog', () => {
+    test('when wrong token provided', async () => {
+        const newBlog = {
+            title: 'Test for me',
+            author: 'Kestutis Duoba',
+            url: 'http://google.com',
+            likes: 99,
+        };
+        const token = 'Some wrong token';
+        await api.post('/api/blogs').set('Authorization', `Bearer ${token}`).send(newBlog).expect(401);
+    });
     test('successfully added blog', async () => {
         const newBlog = {
             title: 'Test for me',
