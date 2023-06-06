@@ -1,4 +1,6 @@
 const logger = require('./logger');
+const jwt = require('jsonwebtoken');
+const config = require('../utils/config');
 
 const requestLogger = (request, response, next) => {
     logger.info('Method:', request.method);
@@ -27,10 +29,29 @@ const errorHandler = (error, request, response, next) => {
 };
 
 const tokenExtractor = (request, response, next) => {
-    const token = request.get('Authorization');
-    if (token && request.get('Authorization').startsWith('Bearer ')) {
-        request.token = request.get('Authorization').replace('Bearer ', '');
-    } else response.status(401).send({ error: 'no token provided' });
+    const authHeader = request.headers.authorization;
+
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+        const token = authHeader.substring(7);
+
+        request.token = token;
+    }
+
+    next();
+};
+
+const userExtractor = async (request, response, next) => {
+    const authHeader = request.headers.authorization;
+    if (authHeader) {
+        const token = authHeader.substring(7);
+        try {
+            const decoded = jwt.verify(token, config.SECRET);
+
+            request.user = decoded;
+        } catch (error) {
+            logger.error(error);
+        }
+    }
     next();
 };
 
@@ -39,4 +60,5 @@ module.exports = {
     unknownEndpoint,
     errorHandler,
     tokenExtractor,
+    userExtractor,
 };
