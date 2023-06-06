@@ -19,11 +19,13 @@ blogsRouter.post('/', async (request, response) => {
         return response.status(400).end();
     }
 
-    const decodedToken = jwt.verify(getTokenFrom(request), config.SECRET);
-    if (!decodedToken.id) {
+    const token = jwt.verify(request.token, config.SECRET);
+    console.log(token);
+    if (!token.id) {
         return response.status(401).json({ error: 'token invalid' });
     }
-    const user = await User.findById(decodedToken.id);
+
+    const user = await User.findById(token.id);
 
     const newBlog = {
         author: request.body.author,
@@ -53,13 +55,5 @@ blogsRouter.put('/:id', async (request, response) => {
     const result = await Blog.findByIdAndUpdate(request.params.id, { likes }, { new: true, context: 'query' });
     response.status(200).json(result);
 });
-
-const getTokenFrom = (request) => {
-    const authorization = request.get('authorization');
-    if (authorization && authorization.startsWith('Bearer ')) {
-        return authorization.replace('Bearer ', '');
-    }
-    return null;
-};
 
 module.exports = blogsRouter;
