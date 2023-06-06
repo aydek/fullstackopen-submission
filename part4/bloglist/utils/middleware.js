@@ -27,9 +27,9 @@ const errorHandler = (error, request, response, next) => {
 };
 
 const tokenExtractor = (request, response, next) => {
-    const token = request.headers.authorization;
-    if (token && request.headers.authorization.startsWith('Bearer ')) {
-        request.token = request.headers.authorization.replace('Bearer ', '');
+    const token = request.get('Authorization');
+    if (token && request.get('Authorization').startsWith('Bearer ')) {
+        request.token = request.get('Authorization').replace('Bearer ', '');
     } else response.status(401).send({ error: 'no token provided' });
     next();
 };
