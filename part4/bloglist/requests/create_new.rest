@@ -1,6 +1,0 @@
-POST http://localhost:3001/api/blogs 
-Content-Type: application/json
-
-{
-    "author": "John Taylor", "title": "How to learn to code", "url": "google.com", "likes": 0
-}
