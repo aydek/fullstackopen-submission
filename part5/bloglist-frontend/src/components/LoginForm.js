@@ -26,11 +26,11 @@ const LoginForm = ({ setUser }) => {
             <h1>Log in to application</h1>
             <div>
                 username:
-                <input value={username} onChange={(e) => setUsername(e.target.value)} />
+                <input type="text" name="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
             </div>
             <div>
                 password:
-                <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" />
+                <input type="password" name="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
             </div>
             {errorMessage.length > 0 ? <div style={{ color: '#aa0000' }}>{errorMessage}</div> : null}
             <button type="submit">Login</button>

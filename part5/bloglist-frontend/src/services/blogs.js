@@ -6,5 +6,15 @@ const getAll = async () => {
     return response.data;
 };
 
+const create = async (token, data) => {
+    const response = await axios.post(baseUrl, data, {
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+        },
+    });
+    return response.data;
+};
+
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { getAll };
+export default { getAll, create };
