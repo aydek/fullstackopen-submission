@@ -16,9 +16,9 @@ blogsRouter.get('/', async (request, response) => {
 
 blogsRouter.post('/', async (request, response) => {
     if (!request.body.url || !request.body.title) {
-        return response.status(400).end();
+        return response.status(400).json({ error: 'Title and url are required' });
     }
-   
+
     const user = request.user;
     const token = request.token;
 
