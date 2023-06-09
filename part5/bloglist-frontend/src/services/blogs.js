@@ -21,5 +21,15 @@ const update = async (id, data) => {
     return response.data;
 };
 
+const remove = async (id, token) => {
+    const response = await axios.delete(`${baseUrl}/${id}`, {
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+        },
+    });
+    return response.data;
+};
+
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { getAll, create, update };
+export default { getAll, create, update, remove };

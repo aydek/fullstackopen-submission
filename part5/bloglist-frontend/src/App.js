@@ -59,9 +59,11 @@ const App = () => {
                 <AddBlogForm user={user} blogs={blogs} setBlogs={setBlogs} setNotification={setNotification} />
             </Toggable>
 
-            {blogs.map((blog) => (
-                <Blog key={blog.id} blog={blog} blogs={blogs} setBlogs={setBlogs} />
-            ))}
+            {blogs
+                .sort((a, b) => b.likes - a.likes)
+                .map((blog) => (
+                    <Blog key={blog.id} blog={blog} blogs={blogs} setBlogs={setBlogs} user={user} />
+                ))}
         </div>
     );
 };

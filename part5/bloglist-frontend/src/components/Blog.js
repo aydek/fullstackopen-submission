@@ -1,7 +1,7 @@
 import Toggable from './Toggable';
 import blogService from '../services/blogs';
 
-const Blog = ({ blog, blogs, setBlogs }) => {
+const Blog = ({ blog, blogs, setBlogs, user }) => {
     const blogStyle = {
         paddingTop: 10,
         paddingLeft: 2,
@@ -22,6 +22,18 @@ const Blog = ({ blog, blogs, setBlogs }) => {
         }
     };
 
+    const removeBlog = async () => {
+        if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
+            try {
+                await blogService.remove(blog.id, user.token);
+                const updated = blogs.filter((val) => val.id !== blog.id);
+                setBlogs([...updated]);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    };
+
     return (
         <div style={blogStyle}>
             {blog.title}
@@ -32,6 +44,7 @@ const Blog = ({ blog, blogs, setBlogs }) => {
                     <button onClick={likeBlog}>like</button>
                 </div>
                 <div>{blog.author}</div>
+                {blog.user && blog.user.username === user.username ? <button onClick={removeBlog}>Delete</button> : null}
             </Toggable>
         </div>
     );
