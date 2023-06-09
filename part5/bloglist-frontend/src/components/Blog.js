@@ -1,5 +1,6 @@
 import Toggable from './Toggable';
 import blogService from '../services/blogs';
+import PropTypes from 'prop-types';
 
 const Blog = ({ blog, blogs, setBlogs, user }) => {
     const blogStyle = {
@@ -51,3 +52,10 @@ const Blog = ({ blog, blogs, setBlogs, user }) => {
 };
 
 export default Blog;
+
+Blog.propTypes = {
+    blog: PropTypes.object.isRequired,
+    blogs: PropTypes.array.isRequired,
+    setBlogs: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired,
+};

@@ -1,4 +1,5 @@
 import { forwardRef, useImperativeHandle, useState } from 'react';
+import PropTypes from 'prop-types';
 
 const Toggable = forwardRef(({ label, show, hideLabel, buttonAtTop, children }, refs) => {
     if (!hideLabel) hideLabel = 'Hide';
@@ -29,3 +30,7 @@ const Toggable = forwardRef(({ label, show, hideLabel, buttonAtTop, children }, 
 });
 
 export default Toggable;
+
+Toggable.propTypes = {
+    label: PropTypes.string.isRequired,
+};
