@@ -16,5 +16,10 @@ const create = async (token, data) => {
     return response.data;
 };
 
+const update = async (id, data) => {
+    const response = await axios.put(`${baseUrl}/${id}`, data);
+    return response.data;
+};
+
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { getAll, create };
+export default { getAll, create, update };
