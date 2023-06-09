@@ -1,8 +1,7 @@
 import Toggable from './Toggable';
-import blogService from '../services/blogs';
 import PropTypes from 'prop-types';
 
-const Blog = ({ blog, blogs, setBlogs, user }) => {
+const Blog = ({ blog, user, handleLike, handleRemove }) => {
     const blogStyle = {
         paddingTop: 10,
         paddingLeft: 2,
@@ -11,41 +10,17 @@ const Blog = ({ blog, blogs, setBlogs, user }) => {
         marginBottom: 5,
     };
 
-    const likeBlog = async () => {
-        try {
-            const response = await blogService.update(blog.id, { likes: blog.likes + 1 });
-            const index = blogs.findIndex((val) => val.id === response.id);
-            const copy = blogs;
-            copy[index] = response;
-            setBlogs([...copy]);
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
-    const removeBlog = async () => {
-        if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
-            try {
-                await blogService.remove(blog.id, user.token);
-                const updated = blogs.filter((val) => val.id !== blog.id);
-                setBlogs([...updated]);
-            } catch (error) {
-                console.log(error);
-            }
-        }
-    };
-
     return (
-        <div style={blogStyle}>
-            {blog.title} {blog.author}
+        <div style={blogStyle} className="blog">
+            <span>{blog.title}</span> <span>{blog.author}</span>
             <Toggable label="View" show={false} buttonAtTop={true}>
                 <div>{blog.url}</div>
                 <div>
-                    likes{blog.likes}
-                    <button onClick={likeBlog}>like</button>
+                    likes <span>{blog.likes}</span>
+                    <button onClick={() => handleLike(blog)}>like</button>
                 </div>
                 <div>{blog.user && blog.user.username}</div>
-                {blog.user && blog.user.username === user.username ? <button onClick={removeBlog}>Delete</button> : null}
+                {blog.user && blog.user.username === user.username ? <button onClick={() => handleRemove(blog)}>Delete</button> : null}
             </Toggable>
         </div>
     );
@@ -55,7 +30,7 @@ export default Blog;
 
 Blog.propTypes = {
     blog: PropTypes.object.isRequired,
-    blogs: PropTypes.array.isRequired,
-    setBlogs: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
+    handleLike: PropTypes.func.isRequired,
+    handleRemove: PropTypes.func.isRequired,
 };
