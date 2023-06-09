@@ -5,7 +5,7 @@ const User = require('../models/user');
 const config = require('../utils/config');
 
 blogsRouter.get('/:id', async (request, response) => {
-    const result = await Blog.findById(request.params.id);
+    const result = await Blog.findById(request.params.id).populate('user', { username: 1, name: 1 });
     response.json(result);
 });
 
