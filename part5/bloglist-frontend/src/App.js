@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Blog from './components/Blog';
 import blogService from './services/blogs';
 import LoginForm from './components/LoginForm';
@@ -10,6 +10,8 @@ const App = () => {
     const [user, setUser] = useState(null);
     const [notificationText, setNotificationText] = useState('');
     const [notificationType, setNotificationType] = useState('info');
+
+    const blogFormRef = useRef();
 
     const handleLogout = () => {
         setUser(null);
@@ -55,8 +57,8 @@ const App = () => {
             <p>
                 {user.name} logged in <button onClick={handleLogout}>Logout</button>
             </p>
-            <Toggable label="New Blog" show={false} hideLabel="Cancel">
-                <AddBlogForm user={user} blogs={blogs} setBlogs={setBlogs} setNotification={setNotification} />
+            <Toggable label="New Blog" show={false} hideLabel="Cancel" ref={blogFormRef}>
+                <AddBlogForm user={user} blogs={blogs} setBlogs={setBlogs} setNotification={setNotification} blogFormRef={blogFormRef} />
             </Toggable>
 
             {blogs
