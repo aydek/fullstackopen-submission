@@ -37,14 +37,14 @@ const Blog = ({ blog, blogs, setBlogs, user }) => {
 
     return (
         <div style={blogStyle}>
-            {blog.title}
+            {blog.title} {blog.author}
             <Toggable label="View" show={false} buttonAtTop={true}>
                 <div>{blog.url}</div>
                 <div>
                     likes{blog.likes}
                     <button onClick={likeBlog}>like</button>
                 </div>
-                <div>{blog.author}</div>
+                <div>{blog.user && blog.user.username}</div>
                 {blog.user && blog.user.username === user.username ? <button onClick={removeBlog}>Delete</button> : null}
             </Toggable>
         </div>
