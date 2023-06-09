@@ -31,4 +31,5 @@ const remove = async (id, token) => {
     return response.data;
 };
 
+// eslint-disable-next-line
 export default { getAll, create, update, remove };
