@@ -29,6 +29,8 @@ const Toggable = forwardRef(({ label, show, hideLabel, buttonAtTop, children }, 
     );
 });
 
+Toggable.displayName = 'Toggable';
+
 export default Toggable;
 
 Toggable.propTypes = {
