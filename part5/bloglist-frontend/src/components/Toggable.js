@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const Toggable = ({ label, show, hideLabel, children }) => {
+const Toggable = ({ label, show, hideLabel, buttonAtTop, children }) => {
     if (!hideLabel) hideLabel = 'Hide';
     const [visible, setVisible] = useState(show);
     return !visible ? (
@@ -9,8 +9,9 @@ const Toggable = ({ label, show, hideLabel, children }) => {
         </>
     ) : (
         <>
+            {buttonAtTop && <button onClick={() => setVisible(false)}>{hideLabel}</button>}
             {children}
-            <button onClick={() => setVisible(false)}>{hideLabel}</button>
+            {!buttonAtTop && <button onClick={() => setVisible(false)}>{hideLabel}</button>}
         </>
     );
 };
