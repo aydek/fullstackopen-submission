@@ -33,7 +33,11 @@ const LoginForm = ({ setUser }) => {
                 password:
                 <input type="password" name="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
             </div>
-            {errorMessage.length > 0 ? <div style={{ color: '#aa0000' }}>{errorMessage}</div> : null}
+            {errorMessage.length > 0 ? (
+                <div className="notification" style={{ color: '#aa0000' }}>
+                    {errorMessage}
+                </div>
+            ) : null}
             <button type="submit">Login</button>
         </form>
     );
