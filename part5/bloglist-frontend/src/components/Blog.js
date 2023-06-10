@@ -13,7 +13,7 @@ const Blog = ({ blog, user, handleLike, handleRemove }) => {
     return (
         <div style={blogStyle} className="blog">
             <span>{blog.title}</span> <span>{blog.author}</span>
-            <Toggable label="View" show={false} buttonAtTop={true}>
+            <Toggable label="View" show={false} buttonAtTop={true} className="view-button">
                 <div>{blog.url}</div>
                 <div>
                     likes <span>{blog.likes}</span>
