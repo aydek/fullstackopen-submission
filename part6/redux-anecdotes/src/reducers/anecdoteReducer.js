@@ -25,23 +25,12 @@ const anecdotesSlice = createSlice({
     name: 'anecdotes',
     initialState,
     reducers: {
-        addAnecdote: {
-            reducer: (state, action) => {
-                state.push(action.payload);
-            },
-            prepare: (text) => {
-                return {
-                    payload: {
-                        content: text,
-                        id: getId(),
-                        votes: 0,
-                    },
-                };
-            },
+        addAnecdote(state, action) {
+            state.push(asObject(action.payload));
         },
-        increaseVote: (state, action) => {
-            const { id } = action.payload;
-            const anecdote = state.find((item) => item.id === id);
+        increaseVote(state, action) {
+            const anecdote = state.find((item) => item.id === action.payload);
+            console.log(anecdote);
             if (anecdote) {
                 anecdote.votes++;
             }
