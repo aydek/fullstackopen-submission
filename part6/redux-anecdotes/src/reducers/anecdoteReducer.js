@@ -42,6 +42,7 @@ const reducer = (state = initialState, action) => {
     }
 };
 
+
 export const increaseVote = (id) => {
     return {
         type: 'INCREASE_VOTE',
@@ -55,5 +56,6 @@ export const newAnecdote = (text) => {
         payload: { text },
     };
 };
+
 
 export default reducer;
