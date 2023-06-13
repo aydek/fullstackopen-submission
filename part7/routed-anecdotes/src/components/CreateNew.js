@@ -7,6 +7,10 @@ const CreateNew = (props) => {
     const info = useField('text');
     const navigate = useNavigate();
 
+    const { resetValue: contentReset, ...contentProps } = content;
+    const { resetValue: authorReset, ...authorProps } = author;
+    const { resetValue: infoReset, ...infoProps } = info;
+
     const handleSubmit = (e) => {
         e.preventDefault();
         props.addNew({
@@ -20,14 +24,10 @@ const CreateNew = (props) => {
 
     const resetForm = (e) => {
         e.preventDefault();
-        content.resetValue();
-        author.resetValue();
-        info.resetValue();
+        contentReset();
+        authorReset();
+        infoReset();
     };
-
-    const { resetValue: contentReset, ...contentProps } = content;
-    const { resetValue: authorReset, ...authorProps } = author;
-    const { resetValue: infoReset, ...infoProps } = info;
 
     return (
         <div>
