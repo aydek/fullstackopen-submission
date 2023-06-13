@@ -30,6 +30,7 @@ const App = () => {
     const addNew = (anecdote) => {
         anecdote.id = Math.round(Math.random() * 10000);
         setAnecdotes(anecdotes.concat(anecdote));
+        
     };
 
     const anecdoteById = (id) => anecdotes.find((a) => a.id === id);
