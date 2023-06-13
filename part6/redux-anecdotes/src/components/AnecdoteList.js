@@ -1,7 +1,8 @@
-import React from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { increaseVote } from '../reducers/anecdoteReducer';
+import { increaseVote, setAnecdotes } from '../reducers/anecdoteReducer';
 import { setNotification } from '../reducers/notificationReducer';
+import anecdoteService from '../services/anecdotes';
 
 const AnecdoteList = () => {
     const anecdotes = useSelector(({ filter, anecdotes }) => {
@@ -13,6 +14,10 @@ const AnecdoteList = () => {
         dispatch(increaseVote(anecdote.id));
         dispatch(setNotification(`you voted '${anecdote.content}'`));
     };
+
+    useEffect(() => {
+        anecdoteService.getAll().then((anecdotes) => dispatch(setAnecdotes(anecdotes)));
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     return anecdotes
         .sort((a, b) => b.votes - a.votes)
