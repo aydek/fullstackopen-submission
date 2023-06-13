@@ -30,7 +30,6 @@ const anecdotesSlice = createSlice({
         },
         increaseVote(state, action) {
             const anecdote = state.find((item) => item.id === action.payload);
-            console.log(anecdote);
             if (anecdote) {
                 anecdote.votes++;
             }
