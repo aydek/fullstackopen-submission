@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { setNotification } from '../reducers/notificationReducer';
 
 const Notification = () => {
@@ -12,13 +12,18 @@ const Notification = () => {
 
     const dispatch = useDispatch();
     const notification = useSelector((state) => state.notification);
+    const timeoutRef = useRef(null);
 
     useEffect(() => {
+        clearTimeout(timeoutRef.current);
         if (notification.length > 0) {
-            setTimeout(() => {
+            timeoutRef.current = setTimeout(() => {
                 dispatch(setNotification(''));
             }, 5000);
         }
+        return () => {
+            clearTimeout(timeoutRef.current);
+        };
     }, [notification.length, dispatch]);
 
     return notification.length > 0 && <div style={style}>{notification}</div>;
