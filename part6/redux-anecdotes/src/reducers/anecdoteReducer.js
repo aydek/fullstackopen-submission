@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import anecdoteService from '../services/anecdotes';
 
 const getId = () => (100000 * Math.random()).toFixed(0);
 
@@ -16,6 +17,7 @@ const anecdotesSlice = createSlice({
     reducers: {
         addAnecdote(state, action) {
             state.push(asObject(action.payload));
+            anecdoteService.createNew(asObject(action.payload));
         },
         increaseVote(state, action) {
             const anecdote = state.find((item) => item.id === action.payload);
