@@ -21,6 +21,11 @@ const update = async (id, data) => {
     return response.data;
 };
 
+const comment = async (id, data) => {
+    const response = await axios.put(`${baseUrl}/${id}/comments`, data);
+    return response.data;
+};
+
 const remove = async (id, token) => {
     const response = await axios.delete(`${baseUrl}/${id}`, {
         headers: {
@@ -32,4 +37,4 @@ const remove = async (id, token) => {
 };
 
 // eslint-disable-next-line
-export default { getAll, create, update, remove };
+export default { getAll, create, update, remove, comment };
