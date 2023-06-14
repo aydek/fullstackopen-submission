@@ -1,5 +1,5 @@
 import { forwardRef, useImperativeHandle, useState } from 'react';
-import PropTypes from 'prop-types';
+import { Box, Button } from '@mui/material';
 
 const Toggable = forwardRef(({ label, show, hideLabel, buttonAtTop, children, className }, refs) => {
     if (!hideLabel) hideLabel = 'Hide';
@@ -17,24 +17,20 @@ const Toggable = forwardRef(({ label, show, hideLabel, buttonAtTop, children, cl
     });
 
     return !visible ? (
-        <>
-            <button className={className} onClick={() => setVisible(true)}>
+        <Box sx={{ my: 2 }}>
+            <Button variant="outlined" fullWidth className={className} onClick={() => setVisible(true)}>
                 {label}
-            </button>
-        </>
+            </Button>
+        </Box>
     ) : (
-        <>
-            {buttonAtTop && <button onClick={() => setVisible(false)}>{hideLabel}</button>}
+        <Box sx={{ my: 2 }}>
+            {buttonAtTop && <Button onClick={() => setVisible(false)}>{hideLabel}</Button>}
             {children}
-            {!buttonAtTop && <button onClick={() => setVisible(false)}>{hideLabel}</button>}
-        </>
+            {!buttonAtTop && <Button onClick={() => setVisible(false)}>{hideLabel}</Button>}
+        </Box>
     );
 });
 
 Toggable.displayName = 'Toggable';
 
 export default Toggable;
-
-Toggable.propTypes = {
-    label: PropTypes.string.isRequired,
-};
