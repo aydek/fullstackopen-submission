@@ -14,6 +14,18 @@ blogsRouter.get('/', async (request, response) => {
     response.json(result);
 });
 
+blogsRouter.put('/:id/comments', async (request, response) => {
+    if (!request.body.comment) {
+        return response.status(400).json({ error: 'Comment is required' });
+    }
+
+    const result = await Blog.findByIdAndUpdate(request.params.id, { $push: { comments: request.body.comment } }, { new: true, context: 'query' }).populate(
+        'user',
+        { username: 1, name: 1 }
+    );
+    response.status(200).json(result);
+});
+
 blogsRouter.post('/', async (request, response) => {
     if (!request.body.url || !request.body.title) {
         return response.status(400).json({ error: 'Title and url are required' });
