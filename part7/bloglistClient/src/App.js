@@ -4,26 +4,21 @@ import blogService from './services/blogs';
 import LoginForm from './components/LoginForm';
 import AddBlogForm from './components/AddBlogForm';
 import Toggable from './components/Toggable';
+import { useDispatch } from 'react-redux';
+import { showNotification } from './reducers/notificationReducer';
+import Notification from './components/Notification';
 
 const App = () => {
+    const dispatch = useDispatch();
+
     const [blogs, setBlogs] = useState([]);
     const [user, setUser] = useState(null);
-    const [notificationText, setNotificationText] = useState('');
-    const [notificationType, setNotificationType] = useState('info');
 
     const blogFormRef = useRef();
 
     const handleLogout = () => {
         setUser(null);
         window.localStorage.removeItem('blogsUser');
-    };
-
-    const setNotification = (text, type = 'info') => {
-        setNotificationText(text);
-        setNotificationType(type);
-        setTimeout(() => {
-            setNotificationText('');
-        }, 4000);
     };
 
     const handleLike = async (blog) => {
@@ -54,10 +49,10 @@ const App = () => {
         try {
             const response = await blogService.create(user.token, { title, author, url });
             setBlogs([...blogs, response]);
-            setNotification(`New blog ${response.title} by ${response.author} added..`);
+            dispatch(showNotification(`New blog ${response.title} by ${response.author} added..`, 5));
             blogFormRef.current.toggleVisibility();
         } catch (error) {
-            setNotification(error.response.data.error, 'error');
+            dispatch(showNotification(error.response.statusText, 5, 'error'));
         }
     };
 
@@ -88,7 +83,7 @@ const App = () => {
     ) : (
         <div>
             <h2>blogs</h2>
-            {notificationText.length > 0 ? <h2 style={{ color: notificationType === 'error' ? '#aa0000' : '#00aa00' }}>{notificationText}</h2> : null}
+            <Notification />
             <p>
                 {user.name} logged in <button onClick={handleLogout}>Logout</button>
             </p>
