@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { Box, Button, TextField, Typography } from '@mui/material';
 
 const AddBlogForm = ({ handleNewBlog }) => {
     const [title, setTitle] = useState('');
@@ -16,22 +17,36 @@ const AddBlogForm = ({ handleNewBlog }) => {
     };
 
     return (
-        <form onSubmit={newBlog}>
-            <h1>Create new</h1>
-            <div>
-                Title:
-                <input type="text" name="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
-            </div>
-            <div>
-                Author:
-                <input type="text" name="Author" value={author} onChange={(e) => setAuthor(e.target.value)} />
-            </div>
-            <div>
-                URL:
-                <input type="text" name="URL" value={url} onChange={(e) => setUrl(e.target.value)} />
-            </div>
-            <button type="submit">Create</button>
-        </form>
+        <Box component="main" maxWidth="xs">
+            <Box component="form" onSubmit={newBlog}>
+                <Typography variant="h5">Create new</Typography>
+                <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    label="Title"
+                    name="title"
+                    autoComplete="title"
+                    autoFocus
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                />
+                <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    label="Author"
+                    name="author"
+                    autoComplete="author"
+                    value={author}
+                    onChange={(e) => setAuthor(e.target.value)}
+                />
+                <TextField margin="normal" required fullWidth label="URL" name="url" autoComplete="url" value={url} onChange={(e) => setUrl(e.target.value)} />
+                <Button type="submit" variant="outlined" fullWidth>
+                    Create
+                </Button>
+            </Box>
+        </Box>
     );
 };
 
