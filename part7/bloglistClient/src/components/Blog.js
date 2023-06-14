@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { addLike, removeBlog } from '../reducers/blogReducer';
+import BlogComments from './BlogComments';
 
 const Blog = () => {
     const id = useParams().id;
@@ -34,6 +35,7 @@ const Blog = () => {
             </div>
             <div>adde by: {blog.user && blog.user.name}</div>
             {blog.user && blog.user.username === user.username ? <button onClick={() => handleRemove(blog)}>Delete</button> : null}
+            <BlogComments blog={blog} />
         </div>
     );
 };
