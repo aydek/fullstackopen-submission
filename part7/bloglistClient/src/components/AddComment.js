@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addCommnet } from '../reducers/blogReducer';
+import { Box, Button, TextField } from '@mui/material';
 
 const AddComment = ({ id }) => {
     const dispatch = useDispatch();
@@ -12,10 +13,12 @@ const AddComment = ({ id }) => {
         setComment('');
     };
     return (
-        <form onSubmit={submitForm}>
-            <input type="text" value={comment} onChange={(e) => setComment(e.target.value)}></input>
-            <button>add comment</button>
-        </form>
+        <Box component="form" onSubmit={submitForm} display={'flex'} sx={{ maxWidth: 'xs' }}>
+            <TextField label="Comment" name="comment" autoComplete="comment" value={comment} onChange={(e) => setComment(e.target.value)} />
+            <Button sx={{ ml: 1 }} type="submit" variant="outlined">
+                Add
+            </Button>
+        </Box>
     );
 };
 
