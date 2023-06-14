@@ -8,6 +8,7 @@ const AddBlogForm = ({ handleNewBlog }) => {
 
     const newBlog = (event) => {
         event.preventDefault();
+
         handleNewBlog(title, author, url);
         setTitle('');
         setAuthor('');
