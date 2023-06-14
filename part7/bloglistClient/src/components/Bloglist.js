@@ -21,6 +21,7 @@ const Bloglist = () => {
         blogFormRef.current.toggleVisibility();
         dispatch(addBlog(title, author, url));
     };
+
     const blogs = useSelector((state) => state.blogs);
     return (
         <>
