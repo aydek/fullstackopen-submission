@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import UserService from '../services/users';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { Box, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 
 const Users = () => {
+    const navigate = useNavigate();
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
@@ -14,33 +16,32 @@ const Users = () => {
     }, []);
 
     return (
-        <div>
-            <h2>Users</h2>
+        <Box sx={{ mt: 2 }}>
             {users.length ? (
-                <table>
-                    <thead>
-                        <tr>
-                            <td> </td>
-                            <td>
-                                <strong>blogs created</strong>
-                            </td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {users.map((user) => (
-                            <tr key={user.id}>
-                                <td>
-                                    <Link to={`/users/${user.id}`}>{user.name}</Link>
-                                </td>
-                                <td>{user.blogs.length}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                <TableContainer component={Paper}>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>User name</TableCell>
+                                <TableCell>Blogs created</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {users.map((user) => (
+                                <TableRow key={user.id}>
+                                    <TableCell>
+                                        <Button onClick={() => navigate(`/users/${user.id}`)}>{user.name}</Button>
+                                    </TableCell>
+                                    <TableCell>{user.blogs.length}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             ) : (
-                <div>No users found...</div>
+                <Typography>No users found...</Typography>
             )}
-        </div>
+        </Box>
     );
 };
 
