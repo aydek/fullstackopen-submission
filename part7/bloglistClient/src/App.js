@@ -10,6 +10,7 @@ import Users from './components/Users';
 import User from './components/User';
 import Blog from './components/Blog';
 import Nav from './components/Nav';
+import Typography from '@mui/material/Typography';
 
 const App = () => {
     const dispatch = useDispatch();
@@ -25,7 +26,8 @@ const App = () => {
     ) : (
         <Router>
             <Nav />
-            <h2>blogs</h2>
+            <Typography variant="h2">Blogs</Typography>
+
             <Notification />
 
             <Routes>
