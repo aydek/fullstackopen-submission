@@ -8,6 +8,7 @@ import { initializeBlogs } from './reducers/blogReducer';
 import { deleteUserData, initUser } from './reducers/userReducer';
 import Bloglist from './components/Bloglist';
 import Users from './components/Users';
+import User from './components/User';
 
 const App = () => {
     const dispatch = useDispatch();
@@ -35,6 +36,7 @@ const App = () => {
             <Routes>
                 <Route path="/" element={<Bloglist />} />
                 <Route path="/users" element={<Users />} />
+                <Route path="/users/:id" element={<User />} />
             </Routes>
         </Router>
     );
