@@ -10,6 +10,7 @@ import Users from './components/Users';
 import User from './components/User';
 import Blog from './components/Blog';
 import Nav from './components/Nav';
+import { Container } from '@mui/material';
 
 const App = () => {
     const dispatch = useDispatch();
@@ -25,15 +26,16 @@ const App = () => {
     ) : (
         <Router>
             <Nav />
+            <Container maxWidth="lg">
+                <Notification />
 
-            <Notification />
-
-            <Routes>
-                <Route path="/" element={<Bloglist />} />
-                <Route path="/users" element={<Users />} />
-                <Route path="/users/:id" element={<User />} />
-                <Route path="/blogs/:id" element={<Blog />} />
-            </Routes>
+                <Routes>
+                    <Route path="/" element={<Bloglist />} />
+                    <Route path="/users" element={<Users />} />
+                    <Route path="/users/:id" element={<User />} />
+                    <Route path="/blogs/:id" element={<Blog />} />
+                </Routes>
+            </Container>
         </Router>
     );
 };
