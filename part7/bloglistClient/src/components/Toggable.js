@@ -1,7 +1,7 @@
 import { forwardRef, useImperativeHandle, useState } from 'react';
-import { Box, Button } from '@mui/material';
+import { Box, Button, Container } from '@mui/material';
 
-const Toggable = forwardRef(({ label, show, hideLabel, buttonAtTop, children, className }, refs) => {
+const Toggable = forwardRef(({ label, show, hideLabel, children, className }, refs) => {
     if (!hideLabel) hideLabel = 'Hide';
     if (show === undefined) show = false;
     const [visible, setVisible] = useState(show);
@@ -23,11 +23,12 @@ const Toggable = forwardRef(({ label, show, hideLabel, buttonAtTop, children, cl
             </Button>
         </Box>
     ) : (
-        <Box sx={{ my: 2 }}>
-            {buttonAtTop && <Button onClick={() => setVisible(false)}>{hideLabel}</Button>}
+        <Container component="main" maxWidth="xs" sx={{ my: 2 }}>
             {children}
-            {!buttonAtTop && <Button onClick={() => setVisible(false)}>{hideLabel}</Button>}
-        </Box>
+            <Button sx={{ mt: 1 }} variant="outlined" fullWidth onClick={() => setVisible(false)}>
+                {hideLabel}
+            </Button>
+        </Container>
     );
 });
 
