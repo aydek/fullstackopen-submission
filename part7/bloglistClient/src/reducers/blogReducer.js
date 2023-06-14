@@ -16,7 +16,6 @@ const blogSlice = createSlice({
         },
 
         deleteBlog(state, action) {
-            console.log(action.payload);
             const { id } = action.payload;
             state.splice(
                 state.findIndex((blog) => blog.id === id),
