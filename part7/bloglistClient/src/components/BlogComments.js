@@ -1,21 +1,26 @@
 import React from 'react';
 import AddComment from './AddComment';
+import { Box, List, ListItem, ListItemText, Typography } from '@mui/material';
+import CommentIcon from '@mui/icons-material/Comment';
 
 const BlogComments = ({ blog }) => {
     return (
-        <div>
-            <h2>Comments</h2>
+        <Box mt={3}>
+            <Typography variant="h5">Comments</Typography>
             <AddComment id={blog.id} />
             {!blog.comments || blog.comments.length < 1 ? (
-                <div>No comments found...</div>
+                <Typography>No comments found...</Typography>
             ) : (
-                <ul>
+                <List>
                     {blog.comments.map((comment, index) => (
-                        <li key={index}>{comment}</li>
+                        <ListItem key={index}>
+                            <CommentIcon />
+                            <ListItemText inset={true} primary={comment}></ListItemText>
+                        </ListItem>
                     ))}
-                </ul>
+                </List>
             )}
-        </div>
+        </Box>
     );
 };
 
