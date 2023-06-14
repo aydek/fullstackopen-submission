@@ -48,9 +48,10 @@ export const initializeBlogs = () => {
     };
 };
 
-export const addBlog = (user, title, author, url) => {
-    return async (dispatch) => {
+export const addBlog = (title, author, url) => {
+    return async (dispatch, getState) => {
         try {
+            const user = getState().user;
             const response = await blogService.create(user.token, { title, author, url });
             dispatch(showNotification(`New blog ${response.title} by ${response.author} added..`, 5));
             dispatch(appendBlogs(response));
@@ -60,9 +61,10 @@ export const addBlog = (user, title, author, url) => {
     };
 };
 
-export const removeBlog = (blog, user) => {
-    return async (dispatch) => {
+export const removeBlog = (blog) => {
+    return async (dispatch, getState) => {
         try {
+            const user = getState().user;
             await blogService.remove(blog.id, user.token);
             dispatch(deleteBlog(blog));
         } catch (error) {

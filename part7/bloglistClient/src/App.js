@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import Blog from './components/Blog';
 import LoginForm from './components/LoginForm';
 import AddBlogForm from './components/AddBlogForm';
@@ -6,18 +6,17 @@ import Toggable from './components/Toggable';
 import { useDispatch, useSelector } from 'react-redux';
 import Notification from './components/Notification';
 import { addBlog, addLike, initializeBlogs, removeBlog } from './reducers/blogReducer';
+import { deleteUserData, initUser } from './reducers/userReducer';
 
 const App = () => {
     const dispatch = useDispatch();
     const blogs = useSelector((state) => state.blogs);
-
-    const [user, setUser] = useState(null);
+    const user = useSelector((state) => state.user);
 
     const blogFormRef = useRef();
 
     const handleLogout = () => {
-        setUser(null);
-        window.localStorage.removeItem('blogsUser');
+        dispatch(deleteUserData());
     };
 
     const handleLike = (blog) => {
@@ -26,30 +25,22 @@ const App = () => {
 
     const handleRemove = (blog) => {
         if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
-            dispatch(removeBlog(blog, user));
+            dispatch(removeBlog(blog));
         }
     };
 
     const handleNewBlog = (title, author, url) => {
         blogFormRef.current.toggleVisibility();
-        dispatch(addBlog(user, title, author, url));
+        dispatch(addBlog(title, author, url));
     };
 
     useEffect(() => {
         dispatch(initializeBlogs());
+        dispatch(initUser());
     }, [dispatch]);
 
-    useEffect(() => {
-        if (user) return;
-        const loggeduser = window.localStorage.getItem('blogsUser');
-        if (loggeduser) {
-            const user = JSON.parse(loggeduser);
-            setUser(user);
-        }
-    }, [user]);
-
     return !user ? (
-        <LoginForm setUser={setUser} />
+        <LoginForm />
     ) : (
         <div>
             <h2>blogs</h2>
