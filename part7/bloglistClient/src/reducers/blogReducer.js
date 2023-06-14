@@ -59,7 +59,7 @@ export const addBlog = (title, author, url) => {
         try {
             const user = getState().user;
             const response = await blogService.create(user.token, { title, author, url });
-            dispatch(showNotification(`New blog ${response.title} by ${response.author} added..`, 5));
+            dispatch(showNotification(`New blog ${response.title} by ${response.author} added..`, 5, 'success'));
             dispatch(appendBlogs(response));
         } catch (error) {
             dispatch(showNotification(error.response.statusText, 5, 'error'));
@@ -73,6 +73,7 @@ export const removeBlog = (blog) => {
             const user = getState().user;
             await blogService.remove(blog.id, user.token);
             dispatch(deleteBlog(blog));
+            dispatch(showNotification(`${blog.title} deleted`, 5, 'success'));
         } catch (error) {
             console.log(error);
         }
