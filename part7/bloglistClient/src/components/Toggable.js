@@ -17,13 +17,13 @@ const Toggable = forwardRef(({ label, show, hideLabel, children, className }, re
     });
 
     return !visible ? (
-        <Box sx={{ my: 2 }}>
+        <Box sx={{ mb: 2 }}>
             <Button variant="outlined" fullWidth className={className} onClick={() => setVisible(true)}>
                 {label}
             </Button>
         </Box>
     ) : (
-        <Container component="main" maxWidth="xs" sx={{ my: 2 }}>
+        <Container component="main" maxWidth="xs" sx={{ mb: 2 }}>
             {children}
             <Button sx={{ mt: 1 }} variant="outlined" fullWidth onClick={() => setVisible(false)}>
                 {hideLabel}
