@@ -1,10 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { addLike, removeBlog } from '../reducers/blogReducer';
 import BlogComments from './BlogComments';
 
 const Blog = () => {
     const id = useParams().id;
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user);
     const blogs = useSelector((state) => state.blogs);
@@ -20,6 +21,7 @@ const Blog = () => {
     const handleRemove = (blog) => {
         if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
             dispatch(removeBlog(blog));
+            navigate('/');
         }
     };
 
