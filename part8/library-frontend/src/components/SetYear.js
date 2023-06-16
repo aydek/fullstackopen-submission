@@ -2,8 +2,11 @@ import { useState } from 'react';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import { Button, Container, FormControl, InputLabel, TextField, Typography } from '@mui/material';
+import { ALL_AUTHORS, EDIT_AUTHOR } from '../querys';
+import { useMutation } from '@apollo/client';
 
 const SetYear = ({ authors }) => {
+    const [editAuthor] = useMutation(EDIT_AUTHOR, { refetchQueries: [{ query: ALL_AUTHORS }] });
     const [name, setName] = useState('');
     const [year, setYear] = useState('');
 
@@ -13,7 +16,9 @@ const SetYear = ({ authors }) => {
 
     const updateAuthor = () => {
         if (name.length < 3 || year.length < 4 || year.length > 4) return;
-        
+        editAuthor({ variables: { name, setBornTo: Number(year) } });
+        setName('');
+        setYear('');
     };
 
     return (
