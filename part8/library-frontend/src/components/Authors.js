@@ -12,7 +12,7 @@ const Authors = () => {
     const authors = result.data.allAuthors;
 
     return (
-        <TableContainer component={Paper} sx={{ width: '50%' }}>
+        <TableContainer component={Paper} sx={{ width: '50%', p: 2 }}>
             <Table size="small">
                 <TableHead>
                     <TableRow>
