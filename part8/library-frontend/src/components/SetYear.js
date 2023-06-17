@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-import { Button, Container, FormControl, InputLabel, TextField, Typography } from '@mui/material';
+import { Button, FormControl, InputLabel, Stack, TextField, Typography } from '@mui/material';
 import { ALL_AUTHORS, EDIT_AUTHOR } from '../querys';
 import { useMutation } from '@apollo/client';
 
@@ -22,7 +22,7 @@ const SetYear = ({ authors }) => {
     };
 
     return (
-        <Container sx={{ mt: 3 }}>
+        <Stack sx={{ mt: 3 }}>
             <Typography variant="h5">Set birthyear</Typography>
             <FormControl sx={{ width: 250, mt: 1 }}>
                 <InputLabel id="Author">Author</InputLabel>
@@ -38,7 +38,7 @@ const SetYear = ({ authors }) => {
                     Update author
                 </Button>
             </FormControl>
-        </Container>
+        </Stack>
     );
 };
 
