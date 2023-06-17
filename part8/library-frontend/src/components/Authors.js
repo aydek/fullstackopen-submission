@@ -1,6 +1,7 @@
 import { useQuery } from '@apollo/client';
 import { ALL_AUTHORS } from '../querys';
 import SetYear from './SetYear';
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 
 const Authors = () => {
     const result = useQuery(ALL_AUTHORS);
@@ -11,26 +12,27 @@ const Authors = () => {
     const authors = result.data.allAuthors;
 
     return (
-        <div>
-            <h2>authors</h2>
-            <table>
-                <tbody>
-                    <tr>
-                        <th></th>
-                        <th>born</th>
-                        <th>books</th>
-                    </tr>
+        <TableContainer component={Paper} sx={{ width: '50%' }}>
+            <Table size="small">
+                <TableHead>
+                    <TableRow>
+                        <TableCell>Authors</TableCell>
+                        <TableCell>Year born</TableCell>
+                        <TableCell>Books writen</TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
                     {authors.map((a) => (
-                        <tr key={a.name}>
-                            <td>{a.name}</td>
-                            <td>{a.born}</td>
-                            <td>{a.bookCount}</td>
-                        </tr>
+                        <TableRow key={a.name}>
+                            <TableCell>{a.name}</TableCell>
+                            <TableCell>{a.born}</TableCell>
+                            <TableCell>{a.bookCount}</TableCell>
+                        </TableRow>
                     ))}
-                </tbody>
-            </table>
+                </TableBody>
+            </Table>
             <SetYear authors={authors} />
-        </div>
+        </TableContainer>
     );
 };
 
