@@ -26,7 +26,7 @@ const App = () => {
         <Router>
             <Nav token={token} logout={logout} />
             <Routes>
-                <Route path="/" element={<Authors />} />
+                <Route path="/" element={<Authors token={token} />} />
                 <Route path="/books" element={<Books />} />
                 <Route path="/add" element={<NewBook />} />
                 {!token && <Route path="/login" element={<LoginForm setToken={setToken} />} />}
