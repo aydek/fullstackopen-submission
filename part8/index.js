@@ -1,6 +1,5 @@
 const { ApolloServer } = require('@apollo/server');
 const { startStandaloneServer } = require('@apollo/server/standalone');
-const { v1: uuid } = require('uuid');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const { GraphQLError } = require('graphql');
@@ -126,7 +125,7 @@ const resolvers = {
         },
     },
     Mutation: {
-        addBook: async (root, args) => {
+        addBook: async (root, args, context) => {
             const currentUser = context.currentUser;
 
             if (!currentUser) {
@@ -137,12 +136,13 @@ const resolvers = {
                 });
             }
 
-            const author = Author.findOne({ name: args.name });
+            let author = await Author.findOne({ name: args.name });
             if (!author) {
-                const newAuthor = new Author({ name: args.name });
-                await newAuthor.save();
+                author = new Author({ name: args.name });
+                await author.save();
             }
-            const book = new Book({ ...args });
+            const book = new Book({ ...args, author: author._id });
+            console.log(author);
             try {
                 await book.save();
             } catch (error) {
@@ -156,7 +156,7 @@ const resolvers = {
             }
             return book;
         },
-        editAuthor: async (root, args) => {
+        editAuthor: async (root, args, context) => {
             const currentUser = context.currentUser;
 
             if (!currentUser) {
