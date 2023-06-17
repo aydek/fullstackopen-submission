@@ -85,35 +85,43 @@ const typeDefs = `
 
 const resolvers = {
     Query: {
-        authorCount: async () => Author.collection.countDocuments(),
-        bookCount: async () => Book.collection.countDocuments(),
+        authorCount: async () => await Author.collection.countDocuments(),
+        bookCount: async () => await Book.collection.countDocuments(),
         me: (root, args, context) => {
             return context.currentUser;
         },
         allBooks: async (root, args) => {
+            let books = [];
+
             if (!args.author && !args.genre) {
-                return Book.find({});
+                books = await Book.find({}).populate('author');
+            } else if (args.author && args.genre) {
+                books = await Book.find({ author: args.author, genres: { $all: [args.genre] } }).populate('author');
+            } else if (args.author) {
+                books = await Book.find({ author: args.author }).populate('author');
+            } else if (args.genre) {
+                books = await Book.find({ genres: { $all: [args.genre] } }).populate('author');
             }
-
-            if (args.author && args.genre) {
-                return Book.find({ author: args.author, genres: { $all: [args.genre] } });
-            }
-
-            if (args.author) {
-                return Book.find({ author: args.author });
-            }
-
-            if (args.genre) {
-                return Book.find({ genres: { $all: [args.genre] } });
-            }
+            return books.map((book) => ({
+                title: book.title,
+                published: book.published,
+                author: {
+                    name: book.author.name,
+                    born: book.author.born,
+                    bookCount: books.filter((b) => b.author.toString() === book.author.toString()).length,
+                },
+                id: book.id,
+                genres: book.genres,
+            }));
         },
         allAuthors: async () => {
             const authors = await Author.find({});
             const books = await Book.find({});
+
             return authors.map((author) => ({
                 name: author.name,
                 born: author.born,
-                bookCount: books.filter((book) => book.author === author.name).length,
+                bookCount: books.filter((book) => book.author.toString() === author._id.toString()).length,
             }));
         },
     },
