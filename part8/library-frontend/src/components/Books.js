@@ -10,7 +10,7 @@ const Books = () => {
     const books = result.data.allBooks;
 
     return (
-        <TableContainer component={Paper} sx={{ width: '80%' }}>
+        <TableContainer component={Paper} sx={{ width: '80%', p: 2 }}>
             <Table size="small">
                 <TableHead>
                     <TableRow>
