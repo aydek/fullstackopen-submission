@@ -136,13 +136,14 @@ const resolvers = {
                 });
             }
 
-            let author = await Author.findOne({ name: args.name });
+            let author = await Author.findOne({ name: args.author });
+
             if (!author) {
-                author = new Author({ name: args.name });
+                author = new Author({ name: args.author });
                 await author.save();
             }
             const book = new Book({ ...args, author: author._id });
-            console.log(author);
+
             try {
                 await book.save();
             } catch (error) {
@@ -154,7 +155,8 @@ const resolvers = {
                     },
                 });
             }
-            return book;
+
+            return { title: book.title, published: book.published, author: { name: author.name } };
         },
         editAuthor: async (root, args, context) => {
             const currentUser = context.currentUser;
@@ -167,7 +169,7 @@ const resolvers = {
                 });
             }
 
-            const author = Author.findOne({ name: args.name });
+            const author = await Author.findOne({ name: args.name });
             if (!author) {
                 return null;
             }
