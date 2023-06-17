@@ -3,7 +3,7 @@ import { ALL_AUTHORS } from '../querys';
 import SetYear from './SetYear';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 
-const Authors = () => {
+const Authors = ({ token }) => {
     const result = useQuery(ALL_AUTHORS);
     if (result.loading) {
         return <div>loading...</div>;
@@ -31,7 +31,7 @@ const Authors = () => {
                     ))}
                 </TableBody>
             </Table>
-            <SetYear authors={authors} />
+            {token && <SetYear authors={authors} />}
         </TableContainer>
     );
 };
