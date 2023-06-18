@@ -1,8 +1,9 @@
 import { useMutation } from '@apollo/client';
 import { useState } from 'react';
-import { ALL_AUTHORS, ALL_BOOKS, CREATE_BOOK } from '../querys';
+import { ALL_BOOKS, CREATE_BOOK } from '../querys';
 import { Alert, Button, Paper, Stack, TextField, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { updateCache } from './Books';
 
 const NewBook = () => {
     const [title, setTitle] = useState('');
@@ -14,9 +15,12 @@ const NewBook = () => {
     const navigate = useNavigate();
 
     const [createBook] = useMutation(CREATE_BOOK, {
-        refetchQueries: [{ query: ALL_BOOKS }, { query: ALL_AUTHORS }],
         onError: (error) => {
+            console.log(error);
             setError(error.graphQLErrors[0].message);
+        },
+        update: (cache, response) => {
+            updateCache(cache, { query: ALL_BOOKS }, response.data.addBook);
         },
     });
 

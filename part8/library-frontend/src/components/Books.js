@@ -1,10 +1,27 @@
-import { useQuery } from '@apollo/client';
-import { ALL_BOOKS, ALL_GENRES } from '../querys';
-import { Box, Button, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
+import { useQuery, useSubscription } from '@apollo/client';
+import { ALL_BOOKS, ALL_GENRES, BOOK_ADDED } from '../querys';
+import { Alert, Box, Button, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
+
+export const updateCache = (cache, query, addedBook) => {
+    const uniqByTitle = (a) => {
+        let seen = new Set();
+        return a.filter((item) => {
+            let k = item.title;
+            return seen.has(k) ? false : seen.add(k);
+        });
+    };
+
+    cache.updateQuery(query, ({ allBooks }) => {
+        return {
+            allBooks: uniqByTitle(allBooks.concat(addedBook)),
+        };
+    });
+};
 
 const Books = () => {
     const [filter, setFilter] = useState('');
+    const [notification, setNotification] = useState('');
 
     const result = useQuery(ALL_BOOKS, {
         variables: { genre: filter },
@@ -15,6 +32,14 @@ const Books = () => {
     const allGenres = !genres.loading && genres.data.allGenres;
 
     const books = !result.loading && result.data.allBooks;
+
+    useSubscription(BOOK_ADDED, {
+        onData: ({ data, client }) => {
+            const addedBook = data.data.bookAdded;
+            setNotification(`New book added: ${addedBook.title}`);
+            updateCache(client.cache, { query: ALL_BOOKS, variables: { genre: '' } }, addedBook);
+        },
+    });
 
     useEffect(() => {
         result.refetch();
@@ -29,7 +54,9 @@ const Books = () => {
                     In genre: <strong>{filter}</strong>
                 </Typography>
             )}
+
             <TableContainer component={Paper} sx={{ width: '80%', p: 2 }}>
+                {notification.length > 0 && <Alert severity="info">{notification}</Alert>}
                 <Table size="small">
                     <TableHead>
                         <TableRow>
