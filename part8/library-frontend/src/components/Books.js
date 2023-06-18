@@ -33,9 +33,15 @@ const Books = () => {
                 <Table size="small">
                     <TableHead>
                         <TableRow>
-                            <TableCell>Book</TableCell>
-                            <TableCell>Author</TableCell>
-                            <TableCell>Published</TableCell>
+                            <TableCell>
+                                <strong>Book</strong>
+                            </TableCell>
+                            <TableCell>
+                                <strong>Author</strong>
+                            </TableCell>
+                            <TableCell>
+                                <strong>Published</strong>
+                            </TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

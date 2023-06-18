@@ -16,9 +16,15 @@ const Authors = ({ token }) => {
             <Table size="small">
                 <TableHead>
                     <TableRow>
-                        <TableCell>Authors</TableCell>
-                        <TableCell>Year born</TableCell>
-                        <TableCell>Books writen</TableCell>
+                        <TableCell>
+                            <strong>Authors</strong>
+                        </TableCell>
+                        <TableCell>
+                            <strong>Year born</strong>
+                        </TableCell>
+                        <TableCell>
+                            <strong>Books writen</strong>
+                        </TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
