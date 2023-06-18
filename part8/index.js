@@ -75,6 +75,7 @@ const typeDefs = `
     type Query {
         authorCount: Int!
         bookCount: Int!
+        allGenres: [String]!
         allBooks(author: String, genre: String): [Book!]!
         allAuthors: [Author!]!
         me: User
@@ -86,6 +87,15 @@ const resolvers = {
     Query: {
         authorCount: async () => await Author.collection.countDocuments(),
         bookCount: async () => await Book.collection.countDocuments(),
+        allGenres: async () => {
+            let genres = [];
+            const result = await Book.find({});
+            console.log(result);
+            for (const book of result) {
+                genres = genres.concat(book.genres);
+            }
+            return genres.filter((genre, index) => genre.length > 0 && genres.indexOf(genre) === index);
+        },
         me: (root, args, context) => {
             return context.currentUser;
         },
