@@ -90,7 +90,6 @@ const resolvers = {
         allGenres: async () => {
             let genres = [];
             const result = await Book.find({});
-            console.log(result);
             for (const book of result) {
                 genres = genres.concat(book.genres);
             }

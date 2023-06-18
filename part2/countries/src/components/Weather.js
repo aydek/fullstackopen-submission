@@ -13,7 +13,6 @@ const Weather = ({ countryInfo }) => {
         axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${api_key}`)
             .then(response => {
                 setWeather(response.data);
-                console.log(response.data);
             }).catch(error => console.error(`Failed to fetch data, message: ${error}`));
 
       

@@ -8,7 +8,6 @@ const CountryInfo = ({ name }) => {
         axios.get(`https://studies.cs.helsinki.fi/restcountries/api/name/${name}`)
             .then(response => {
                 setCountryInfo(response.data)
-                console.log(response.data)
             }).catch(error => console.error(`Failed to fetch data, message: ${error}`));
     }, [name])
     
