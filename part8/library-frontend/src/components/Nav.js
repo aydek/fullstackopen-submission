@@ -17,6 +17,9 @@ const Nav = ({ token, logout }) => {
                     <Button variant="outlined" onClick={() => navigate('/add')}>
                         Add book
                     </Button>
+                    <Button variant="outlined" onClick={() => navigate('/recomend')}>
+                        Recomend
+                    </Button>
                     <Button variant="outlined" onClick={logout}>
                         Logout
                     </Button>

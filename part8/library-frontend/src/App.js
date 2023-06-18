@@ -6,6 +6,7 @@ import Nav from './components/Nav';
 import { useEffect, useState } from 'react';
 import LoginForm from './components/LoginFrom';
 import { useApolloClient } from '@apollo/client';
+import Recommend from './components/Recommend';
 
 const App = () => {
     const [token, setToken] = useState(null);
@@ -29,6 +30,7 @@ const App = () => {
                 <Route path="/" element={<Authors token={token} />} />
                 <Route path="/books" element={<Books />} />
                 <Route path="/add" element={<NewBook />} />
+                {token && <Route path="/recomend" element={<Recommend />} />}
                 {!token && <Route path="/login" element={<LoginForm setToken={setToken} />} />}
             </Routes>
         </Router>
