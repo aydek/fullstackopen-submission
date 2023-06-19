@@ -10,7 +10,7 @@ interface Result {
     average: number;
 }
 
-interface Args {
+interface ArgValues {
     target: number;
     days: number[];
 }
@@ -45,7 +45,7 @@ const calculateExercises = (target: number, hours: number[]): Result => {
     };
 };
 
-const getArgs = (args: string[]): Args => {
+const parseArguments = (args: string[]): ArgValues => {
     if (args.length < 4) throw new Error('Not enough arguments');
 
     const allDays = [];
@@ -57,7 +57,7 @@ const getArgs = (args: string[]): Args => {
 };
 
 try {
-    const { target, days } = getArgs(process.argv);
+    const { target, days } = parseArguments(process.argv);
     console.log(calculateExercises(target, days));
 } catch (error: unknown) {
     if (error instanceof Error) {
