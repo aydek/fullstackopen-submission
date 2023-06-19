@@ -28,7 +28,7 @@ const parseArguments = (args: string[]): ArgValues => {
     }
 };
 
-const calculateBmi = (height: number, weight: number): string | undefined => {
+export const calculateBmi = (height: number, weight: number): string | undefined => {
     const bmi = weight / Math.pow(height / 100, 2);
     for (const condition of conditions) {
         if (bmi < condition.maxBmi) {
