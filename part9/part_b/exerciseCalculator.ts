@@ -15,7 +15,7 @@ interface ArgValues {
     days: number[];
 }
 
-const calculateExercises = (target: number, hours: number[]): Result => {
+export const calculateExercises = (target: number, hours: number[]): Result => {
     const periodLength = hours.length;
     const trainingDays = hours.filter((val) => val > 0).length;
     const average = hours.reduce((a, b) => a + b, 0) / periodLength;
