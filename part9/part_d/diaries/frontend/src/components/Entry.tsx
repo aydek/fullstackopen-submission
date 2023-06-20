@@ -2,7 +2,7 @@ const Entry = ({ date, weather, visibility, comment }: { date: string; weather: 
     return (
         <div>
             <p>
-                <h3>{date}</h3>
+                <strong>{date}</strong>
             </p>
             <div>visibility: {visibility}</div>
             <div>weather: {weather}</div>
