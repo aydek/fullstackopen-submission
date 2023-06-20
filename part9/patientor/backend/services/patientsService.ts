@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import patientsData from '../data/patients';
-import { NewPatientEntry, NonSensitivePatientsEntry, PatientsEntry } from '../types';
+import { GenderTypes, NewPatientEntry, NonSensitivePatientsEntry, PatientsEntry } from '../types';
 
 const getNonSensitiveEntries = (): NonSensitivePatientsEntry[] => {
     return patientsData.map(({ id, name, dateOfBirth, gender, occupation }) => ({ id, name, dateOfBirth, gender, occupation }));
@@ -11,6 +11,13 @@ const getEntries = (): NonSensitivePatientsEntry[] => {
 };
 
 const addPatient = (args: NewPatientEntry): PatientsEntry => {
+    if (
+        !Object.values(GenderTypes)
+            .map((v) => v.toString())
+            .includes(args.gender)
+    )
+        throw new Error('Gender not available');
+        
     const newEntry: PatientsEntry = {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment
         id: uuidv4(),
