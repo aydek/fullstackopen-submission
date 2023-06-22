@@ -4,24 +4,42 @@ export interface DiagnosesEntry {
     latin?: string;
 }
 
-interface Entry {
+interface Discharge {
+    date: string;
+    criteria: string;
+}
+
+interface SickLeave {
+    startDate: string;
+    endDate: string;
+}
+
+interface BaseEntry {
     id: string;
     date: string;
-    specialist: string;
     type: string;
-    diagnosisCodes?: string[];
+    specialist: string;
+    diagnosisCodes?: DiagnosesEntry['code'][];
     description?: string;
-    discharge?: {
-        date: string;
-        criteria: string;
-    };
-    employerName?: string;
-    sickLeave?: {
-        startDate: string;
-        endDate: string;
-    };
+}
+
+interface OccupationalHealthcareEntry extends BaseEntry {
+    type: 'OccupationalHealthcare';
+    employerName: string;
+    sickLeave?: SickLeave;
+}
+
+interface HospitalEntry extends BaseEntry {
+    type: 'Hospital';
+    discharge: Discharge;
+}
+
+interface HealthCheckEntry extends BaseEntry {
+    type: 'HealthCheck';
     healthCheckRating?: number;
 }
+
+type Entry = OccupationalHealthcareEntry | HospitalEntry | HealthCheckEntry;
 
 export interface PatientsEntry {
     id: string;
