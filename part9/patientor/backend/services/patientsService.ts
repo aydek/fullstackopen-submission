@@ -10,6 +10,11 @@ const getEntries = (): NonSensitivePatientsEntry[] => {
     return getNonSensitiveEntries();
 };
 
+const findById = (id: string): PatientsEntry | undefined => {
+    const entry = patientsData.find((d) => d.id === id);
+    return entry;
+};
+
 const addPatient = (args: NewPatientEntry): PatientsEntry => {
     if (
         !Object.values(GenderTypes)
@@ -17,7 +22,7 @@ const addPatient = (args: NewPatientEntry): PatientsEntry => {
             .includes(args.gender)
     )
         throw new Error('Gender not available');
-        
+
     const newEntry: PatientsEntry = {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment
         id: uuidv4(),
@@ -32,6 +37,7 @@ const addPatient = (args: NewPatientEntry): PatientsEntry => {
 export default {
     getEntries,
     addPatient,
+    findById,
 };
 
 // {

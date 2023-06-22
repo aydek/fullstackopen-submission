@@ -8,10 +8,23 @@ router.get('/', (_req, res) => {
     res.json(patientsService.getEntries());
 });
 
+router.get('/:id', (req, res) => {
+    if (!req.params.id) {
+        res.sendStatus(404);
+    } else {
+        const patient = patientsService.findById(req.params.id);
+
+        if (patient) {
+            res.send(patient);
+        } else {
+            res.sendStatus(404);
+        }
+    }
+});
 router.post('/', (req, res) => {
     try {
-        const { name, occupation, ssn, dateOfBirth, gender } = req.body as NewPatientEntry;
-        const newEntry = patientsService.addPatient({ name, occupation, ssn, dateOfBirth, gender });
+        const { name, occupation, ssn, dateOfBirth, gender, entries } = req.body as NewPatientEntry;
+        const newEntry = patientsService.addPatient({ name, occupation, ssn, dateOfBirth, gender, entries });
         res.json(newEntry);
     } catch (error: unknown) {
         let errorMessage = 'Something went wrong.';
@@ -23,4 +36,3 @@ router.post('/', (req, res) => {
 });
 
 export default router;
-
