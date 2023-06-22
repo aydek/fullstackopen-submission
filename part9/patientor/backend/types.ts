@@ -36,7 +36,7 @@ interface HospitalEntry extends BaseEntry {
 
 interface HealthCheckEntry extends BaseEntry {
     type: 'HealthCheck';
-    healthCheckRating?: number;
+    healthCheckRating?: HealthCheckRating;
 }
 
 type Entry = OccupationalHealthcareEntry | HospitalEntry | HealthCheckEntry;
@@ -59,4 +59,11 @@ export enum GenderTypes {
     male = 'male',
     female = 'female',
     other = 'other',
+}
+
+export enum HealthCheckRating {
+    'Healthy' = 0,
+    'LowRisk' = 1,
+    'HighRisk' = 2,
+    'CriticalRisk' = 3,
 }
