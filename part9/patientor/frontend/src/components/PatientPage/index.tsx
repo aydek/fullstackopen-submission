@@ -2,28 +2,26 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { apiBaseUrl } from '../../constants';
-import { Diagnosis, Patient } from '../../types';
+import { Patient } from '../../types';
 import { Box, Typography } from '@mui/material';
 import { Female, Male } from '@mui/icons-material';
+import EntryDetails from './EntryDetails';
 
 const PatientPage = () => {
     const id = useParams().id;
 
     const [patient, setPatients] = useState<Patient>();
-    const [diagnoses, setDiagnoses] = useState<Diagnosis[]>();
 
     useEffect(() => {
         const fetchData = async () => {
-            let result = await axios.get(`${apiBaseUrl}/patients/${id}`);
+            const result = await axios.get(`${apiBaseUrl}/patients/${id}`);
             setPatients(result.data);
-            result = await axios.get(`${apiBaseUrl}/diagnoses`);
-            setDiagnoses(result.data);
         };
 
         void fetchData();
     }, [id]);
 
-    return !patient || !diagnoses ? null : (
+    return !patient ? null : (
         <Box>
             <Typography variant="h5" fontWeight={'bold'} sx={{ my: 2 }}>
                 {patient.name} {patient.gender === 'female' ? <Female /> : <Male />}
@@ -34,18 +32,8 @@ const PatientPage = () => {
                 Entries
             </Typography>
             {patient.entries.map((entry) => (
-                <Box key={entry.id}>
-                    <Typography>
-                        {entry.date} {entry.description}
-                    </Typography>
-                    <ul>
-                        {entry.diagnosisCodes &&
-                            entry.diagnosisCodes.map((code) => (
-                                <li key={code}>
-                                    {code} {diagnoses.filter((d) => d.code === code)[0].name}
-                                </li>
-                            ))}
-                    </ul>
+                <Box key={entry.id} border={1} borderRadius={2} padding={1} marginY={1}>
+                    <EntryDetails entry={entry} />
                 </Box>
             ))}
         </Box>
