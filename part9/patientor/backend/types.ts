@@ -4,15 +4,31 @@ export interface DiagnosesEntry {
     latin?: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface Entry {}
+interface Entry {
+    id: string;
+    date: string;
+    specialist: string;
+    type: string;
+    diagnosisCodes?: string[];
+    description?: string;
+    discharge?: {
+        date: string;
+        criteria: string;
+    };
+    employerName?: string;
+    sickLeave?: {
+        startDate: string;
+        endDate: string;
+    };
+    healthCheckRating?: number;
+}
 
 export interface PatientsEntry {
     id: string;
     name: string;
     dateOfBirth: string;
     ssn: string;
-    gender: string;
+    gender: GenderTypes;
     occupation: string;
     entries: Entry[];
 }
