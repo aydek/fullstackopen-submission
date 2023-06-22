@@ -14,7 +14,7 @@ interface SickLeave {
     endDate: string;
 }
 
-interface BaseEntry {
+export interface BaseEntry {
     id: string;
     date: string;
     type: string;
@@ -23,23 +23,27 @@ interface BaseEntry {
     description?: string;
 }
 
-interface OccupationalHealthcareEntry extends BaseEntry {
+export interface OccupationalHealthcareEntry extends BaseEntry {
     type: 'OccupationalHealthcare';
     employerName: string;
     sickLeave?: SickLeave;
 }
 
-interface HospitalEntry extends BaseEntry {
+export interface HospitalEntry extends BaseEntry {
     type: 'Hospital';
     discharge: Discharge;
 }
 
-interface HealthCheckEntry extends BaseEntry {
+export interface HealthCheckEntry extends BaseEntry {
     type: 'HealthCheck';
     healthCheckRating?: HealthCheckRating;
 }
 
-type Entry = OccupationalHealthcareEntry | HospitalEntry | HealthCheckEntry;
+export type Entry = OccupationalHealthcareEntry | HospitalEntry | HealthCheckEntry;
+
+type UnionOmit<T, K extends string | number | symbol> = T extends unknown ? Omit<T, K> : never;
+
+export type EntryWithoutId = UnionOmit<Entry, 'id'>;
 
 export interface PatientsEntry {
     id: string;
