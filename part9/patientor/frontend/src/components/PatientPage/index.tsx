@@ -6,6 +6,7 @@ import { Patient } from '../../types';
 import { Box, Typography } from '@mui/material';
 import { Female, Male } from '@mui/icons-material';
 import EntryDetails from './EntryDetails';
+import NewEntrie from './NewEntrie';
 
 const PatientPage = () => {
     const id = useParams().id;
@@ -28,11 +29,12 @@ const PatientPage = () => {
             </Typography>
             <Typography>ssn: {patient.ssn}</Typography>
             <Typography>occupation: {patient.occupation}</Typography>
+            <NewEntrie patient={patient} setPatients={setPatients} />
             <Typography variant="h5" sx={{ my: 2 }}>
                 Entries
             </Typography>
-            {patient.entries.map((entry) => (
-                <Box key={entry.id} border={1} borderRadius={2} padding={1} marginY={1}>
+            {patient.entries.map((entry, idx) => (
+                <Box key={idx} border={1} borderRadius={2} padding={1} marginY={1}>
                     <EntryDetails entry={entry} />
                 </Box>
             ))}

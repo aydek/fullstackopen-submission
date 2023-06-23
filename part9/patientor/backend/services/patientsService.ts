@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import patientsData from '../data/patients';
-import { EntryWithoutId, GenderTypes, NewPatientEntry, NonSensitivePatientsEntry, PatientsEntry } from '../types';
+import { Entry, EntryWithoutId, GenderTypes, NewPatientEntry, NonSensitivePatientsEntry, PatientsEntry } from '../types';
 
 const getNonSensitiveEntries = (): NonSensitivePatientsEntry[] => {
     return patientsData.map(({ id, name, dateOfBirth, gender, occupation }) => ({ id, name, dateOfBirth, gender, occupation }));
@@ -37,22 +37,34 @@ const addPatient = (args: NewPatientEntry): PatientsEntry => {
 const addEntry = (id: string, entry: EntryWithoutId) => {
     const patient = patientsData.find((p) => p.id === id);
     if (!patient) throw new Error('Patient not found');
-    const newEntry = { id: uuidv4(), ...entry };
 
-    if (newEntry.type === 'HealthCheck') {
-        if (!newEntry.healthCheckRating) throw new Error('Missing parameters');
-        if (newEntry.healthCheckRating > 3 || newEntry.healthCheckRating < 0) throw new Error('Value of healthCheckRating incorect');
-    }
+    const baseEntry = {
+        id: uuidv4(),
+        description: entry.description,
+        type: entry.type,
+        date: entry.date,
+        specialist: entry.specialist,
+    };
 
-    if (newEntry.type === 'Hospital') {
-        if (!newEntry.discharge) throw new Error('Missing parameters');
-    }
-
-    if (newEntry.type === 'OccupationalHealthcare') {
-        if (!newEntry.employerName || !newEntry.sickLeave) throw new Error('Missing parameters');
+    let newEntry: Entry;
+    if (entry.type === 'HealthCheck') {
+        if (!entry.healthCheckRating) throw new Error('Missing parameters');
+        if (Number(entry.healthCheckRating) > 3 || Number(entry.healthCheckRating) < 0) throw new Error('Value of healthCheckRating incorect');
+        newEntry = { ...baseEntry, type: entry.type, healthCheckRating: Number(entry.healthCheckRating) };
+    } else if (entry.type === 'Hospital') {
+        if (!entry.discharge) throw new Error('Missing parameters');
+        newEntry = { ...baseEntry, type: entry.type, discharge: entry.discharge };
+    } else if (entry.type === 'OccupationalHealthcare') {
+        if (!entry.employerName || !entry.sickLeave) throw new Error('Missing parameters');
+        newEntry = { ...baseEntry, type: entry.type, employerName: entry.employerName, sickLeave: entry.sickLeave };
+    } else {
+        throw new Error('Entry type undefined');
     }
 
     patient.entries.push(newEntry);
+
+    console.log(patient);
+
     return newEntry;
 };
 

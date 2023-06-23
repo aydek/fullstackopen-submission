@@ -28,7 +28,6 @@ interface SickLeave {
 }
 
 interface BaseEntry {
-    id: string;
     date: string;
     type: string;
     specialist: string;
